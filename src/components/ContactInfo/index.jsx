@@ -1,21 +1,26 @@
 // Import react's components
 import {styled} from 'styled-components'
 
+// Import project's components
+import colors from '../../utils/colors'
+
 
 // CSS Rules
 const ContactBloc = styled.div`
+width: 100%;
 display: flex;
+flex-wrap: wrap;
 justify-content: space-around;
 align-items: center;
-width: 500px;
-margin: 50px auto;`
+margin: 50px;
+`
 
 const Contact = styled.div`
 display: block;
 text-align: center;
 font-size: 16px;
-color: black;
-font-size: 1.2em`
+color: ${colors.black};
+font-size: 1.2em;`
 
 const ContactTitle = styled.h3`
 font-weight: bold;
@@ -27,15 +32,21 @@ function ContactInfo () {
         <ContactBloc>
             <Contact>
                 <ContactTitle>
-                    Téléphone:
+                    Téléphone
                 </ContactTitle>
                 (+241) 01 23 45 67 89
             </Contact>
             <Contact>
                 <ContactTitle>
-                    Email: 
+                    Email
                 </ContactTitle>
                 ok_restaurant@info.com
+            </Contact>
+            <Contact>
+                <ContactTitle>
+                    Adresse
+                </ContactTitle>
+                156 Boulevard leon mba, Libreville
             </Contact>
         </ContactBloc>
     )

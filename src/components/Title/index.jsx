@@ -1,17 +1,20 @@
 // Import react components
 import {styled} from 'styled-components'
 
+// Import project's components
+import colors from '../../utils/colors'
+
 // CSS rules
 const TitleComponent = styled.h2`
   text-align: center;
-  color: black;
+  color: ${colors.black};
   font-size: 36px;
-  text-decoration: 10px underline black;
+  text-decoration: 10px underline ${colors.black};
   margin-top: 40px;
 `
 
 const FirstLetter = styled.span`
-  color: orange;
+  color: ${colors.orange};
 `
 // End of CSS rules
 

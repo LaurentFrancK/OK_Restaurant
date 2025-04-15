@@ -3,6 +3,7 @@ import { useState } from "react"
 import {styled} from "styled-components"
 
 // Import project's components
+import colors from "../../utils/colors"
 
 // Import assets
 
@@ -27,13 +28,13 @@ const Input = styled.input`
     padding: 20px;
     width: 70%;
     height: 25px;
-    border: 2px solid orange;
+    border: 2px solid ${colors.orange};
     border-radius: 5px;
     outline: none;
 
     &:focus {
         border: none;
-        border-bottom: 7px solid orange;
+        border-bottom: 7px solid ${colors.orange};
         transition: .3s ease-in-out;
     }
 `
@@ -45,17 +46,17 @@ const SubmitButton = styled.button`
     color: white;
     margin: 10px auto;
     padding: 15px 25px;
-    background-color: black;
+    background-color: ${colors.black};
     border: 1px solid transparent;
     font-family: "Oleo Script Swash Caps", serif;
     cursor: pointer;
 
     &:hover {
-        background-color: white;
+        background-color: ${colors.white};
         letter-spacing: 2.3px;
-        color: black;
+        color: ${colors.black};
         font-weight: bold;
-        border: 1px solid orange;
+        border: 1px solid ${colors.orange};
         transition: .4s ease-in-out;
     }
 `
@@ -64,7 +65,7 @@ const TextArea = styled.textarea`
     padding: 5px;
     width: 70%;
     height: 130px;
-    border: 2px solid orange;
+    border: 2px solid ${colors.orange};
     resize: none;
     outline: none;
 `
@@ -83,7 +84,7 @@ const FormError = styled.p`
     padding: 18px;
     font-size: 19px;
     background-color: red;
-    color: black;
+    color: ${colors.black};
     border-radius: 6px;
     text-align: center;
 `
@@ -144,8 +145,6 @@ function Form () {
         else {
             setThereIsError(true)
         }
-
-
 
         // Cache le message après 5 secondes
         setTimeout(() => {

@@ -8,6 +8,7 @@ import Title from '../../components/Title'
 import Form from '../../components/BookForm'
 import ContactInfo from '../../components/ContactInfo'
 import Map from '../../components/Map'
+import colors from '../../utils/colors'
 
 // Import assets
 import logo from '../../assets/images/logo.png'
@@ -15,21 +16,21 @@ import logo from '../../assets/images/logo.png'
 
 // Start CSS rules
 const WelcomeBloc = styled.div`
-  background-color: orange;
+  background-color: ${colors.orange};
   padding: 50px;
   text-align: center;
   margin-top: 100px;
 `
 
 const WelcomeTitle = styled.h1`
-  color: black;
+  color: ${colors.black};
   font-size: 36px;
-  text-decoration: 10px underline white;
+  text-decoration: 10px underline ${colors.white};
 `
 
 const RestaurantName = styled.span`
   font-weight: bold;
-  color: white
+  color: ${colors.white};
 `
 
 const WelcomeContent = styled.div`
@@ -39,7 +40,7 @@ const WelcomeContent = styled.div`
 `
 
 const WelcomeText = styled.p`
-  color: black;
+  color: ${colors.black};
   font-size: 20px;
 `
 
@@ -62,15 +63,15 @@ const BookTableButton = styled(Link)`
   display: block;
   padding: 15px 30px;
   border-radius: 0;
-  background-color: black;
-  color: white;
+  background-color: ${colors.black};
+  color: ${colors.white};
   text-decoration: none;
   width: 250px;
   margin: 10px auto;
 
   &:hover {
-    background-color: white;
-    color: black;
+    background-color: ${colors.white};
+    color: ${colors.black};
     letter-spacing: 1.5px;
     transition: 0.3s ease;
   }
@@ -84,13 +85,13 @@ const BookTableBloc = styled.div`
   width: 85%;
   margin: 0 auto;
   height: 100%;
-  background: linear-gradient(to right, #FFFFFF 70%, orange 30%)
+  background: linear-gradient(to right, ${colors.white} 70%, ${colors.orange} 30%)
 `
 
 const ContactBloc = styled.div`
-  width: 40%;
-  margin: 100px auto;
-  background-color: white;
+  width: 90%;
+  margin: 0 auto;
+  background-color: ${colors.white};
 `
 // End CSS rules
 
