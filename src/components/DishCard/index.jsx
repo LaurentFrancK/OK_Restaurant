@@ -17,20 +17,42 @@ const Card = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 4px;
   border: none;
   border-radius: 5px;
-  box-shadow: 3px 4px 5px ${colors.orange};
+  box-shadow: 1px 2px 5px ${colors.orange};
   background-color: ${colors.white};
   width: 300px;
   margin: 5px;
+
+  &:hover .dishName {
+    display: none;
+  }
+
+  &:hover .dishPicture {
+    opacity: 1;
+    transform: scale(1.03);
+  }
 `
 
+const DishImageWrapper = styled.div`
+  position: relative;
+  width: 96%;
+  height: 200px;
+  margin: 0 auto;
+`
+
+
 const DishName = styled.h2`
+  width: 80%;
+  position: absolute;
+  top: 50px;
+  left: 10px;
   text-align: center;
   font-size: 24px;
   margin: 12px 0;
-  border-bottom: 1px solid ${colors.black};
+  padding: 10px;
+  z-index: 100;
+  background-color: ${colors.orange};
 `
 
 const DishDescription = styled.p`
@@ -46,10 +68,12 @@ const DishDescription = styled.p`
 
 const DishPicture = styled.img`
   height: 200px;
-  width: 96%;
+  width: 100%;
   margin: 0 auto;
   object-fit: cover;
   border-radius: 5px;
+  opacity: .6;
+  transition: 0.5 ease-in-out;
 `
 
 const DishBottom = styled.div`
@@ -88,7 +112,7 @@ const DishDetails = styled.button`
 `
 
 // Composant fonctionnel
-function DishCard({ title = 'Nom du plat', description = 'Description du plat', price = 0, picture = DefaultPicture }) {
+function DishCard({ title = 'Nom du plat', description = 'Description du plat', price = 0, picture = DefaultPicture, pictureDetail = DefaultPicture }) {
   const [isModalOpen, setModalOpen] = useState(false)
 
   const dish = {
@@ -96,13 +120,16 @@ function DishCard({ title = 'Nom du plat', description = 'Description du plat', 
     description,
     price,
     picture,
+    pictureDetail,
   }
 
   return (
     <>
       <Card>
-        <DishName>{title}</DishName>
-        <DishPicture src={picture} alt={title} />
+        <DishImageWrapper>
+          <DishName className='dishName'>{title}</DishName>
+          <DishPicture src={picture} alt={title} className='dishPicture' />
+        </DishImageWrapper>
         <DishDescription>{description}</DishDescription>
         <DishBottom>
           <DishPrice>Prix : {price}€</DishPrice>
@@ -126,6 +153,7 @@ DishCard.propTypes = {
   description: PropTypes.string,
   price: PropTypes.number,
   picture: PropTypes.string,
+  pictureDetail: PropTypes.string,
 }
 
 export default DishCard

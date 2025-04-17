@@ -43,6 +43,7 @@ function DishesCardsComponent() {
                     description={dish.description}
                     price={dish.price}
                     picture={dish.image}
+                    pictureDetail={dish.pictureDetail}
                 />
             ))}
         </DishesCardsWrapper>
