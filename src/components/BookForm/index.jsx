@@ -33,9 +33,11 @@ const Input = styled.input`
     outline: none;
 
     &:focus {
-        border: none;
-        border-bottom: 7px solid ${colors.orange};
-        transition: .3s ease-in-out;
+        border-top: 2px solid transparent;
+        border-right: 2px solid transparent;
+        border-left: 2px solid transparent;
+        border-bottom: 2px solid ${colors.orange};
+        transition: .2s ease-in-out;
     }
 `
 
