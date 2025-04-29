@@ -11,10 +11,9 @@ import pouletDetailed from '../assets/images/dishes/pouletDetailed.jpg';
 import ramen from '../assets/images/dishes/ramen.jpg';
 import ramenDetailed from '../assets/images/dishes/ramenDetailed.jpg';
 import spaghetti from '../assets/images/dishes/spaghetti.jpg';
-import spaghettiDetailed from '../assets/images/dishes/spaghettiDetailed.jpg'
+import spaghettiDetailed from '../assets/images/dishes/spaghettiDetailed.jpg';
 import steak from '../assets/images/dishes/steak.jpg';
 import steakDetailed from '../assets/images/dishes/steakDetailed.jpg';
-
 
 export const DishesData = [
     {
@@ -23,7 +22,8 @@ export const DishesData = [
         image: pizza,
         description: 'Une pizza est un plat traditionnel italien, composé de pâtes feuilles de tomate, fromage, et des oignons, accompagnées d\'une sauce tomate ou de sauce cream cheese.',
         price: 12,
-        pictureDetail: pizzaDetailed
+        pictureDetail: pizzaDetailed,
+        category: 'plat' // Catégorie ajoutée
     },
     {
         id: 2,
@@ -31,7 +31,8 @@ export const DishesData = [
         image: brics,
         description: 'Les brics sont des plats traditionnels russes, composés de plats de riz, de farine, de sucre, de lait, et de beurre.',
         price: 10,
-        pictureDetail: ''
+        pictureDetail: '',
+        category: 'dessert' // Catégorie ajoutée
     },
     {
         id: 3,
@@ -39,7 +40,8 @@ export const DishesData = [
         image: coteDeBoeuf,
         description: 'La côte de boeuf est un plat traditionnel français, composé de légumes, de fromage, et de sauce tomate ou sauce cream cheese.',
         price: 15,
-        pictureDetail: coteDetailed
+        pictureDetail: coteDetailed,
+        category: 'plat' // Catégorie ajoutée
     },
     {
         id: 4,
@@ -47,7 +49,8 @@ export const DishesData = [
         image: pancake,
         description: 'Un pancake est un plat traditionnel américain, composé de pâtes feuilles de riz, de farine, de sucre, de lait, et de beurre.',
         price: 8,
-        pictureDetail: pancakeDetailed
+        pictureDetail: pancakeDetailed,
+        category: 'dessert' // Catégorie ajoutée
     },
     {
         id: 5,
@@ -55,7 +58,8 @@ export const DishesData = [
         image: pouletFrit,
         description: 'Le poulet frit est un plat traditionnel français, composé de poulet, de fromage, de sauce tomate ou sauce cream cheese.',
         price: 13,
-        pictureDetail: pouletDetailed
+        pictureDetail: pouletDetailed,
+        category: 'plat' // Catégorie ajoutée
     },
     {
         id: 6,
@@ -63,7 +67,8 @@ export const DishesData = [
         image: ramen,
         description: 'Le ramen est un plat traditionnel japonais, composé de riz, de noodles, de sauce soja ou épices.',
         price: 11,
-        pictureDetail: ramenDetailed
+        pictureDetail: ramenDetailed,
+        category: 'plat' // Catégorie ajoutée
     },
     {
         id: 7,
@@ -71,7 +76,8 @@ export const DishesData = [
         image: spaghetti,
         description: 'Le spaghetti est un plat traditionnel italien, composé de spaghetti, de sauce tomate ou de sauce cream cheese.',
         price: 14,
-        pictureDetail: spaghettiDetailed
+        pictureDetail: spaghettiDetailed,
+        category: 'plat' // Catégorie ajoutée
     },
     {
         id: 8,
@@ -79,6 +85,7 @@ export const DishesData = [
         image: steak,
         description: 'Le steak est un plat traditionnel américain, composé de steak de boeuf, de fromage, de sauce tomate ou sauce cream cheese.',
         price: 18,
-        pictureDetail: steakDetailed
+        pictureDetail: steakDetailed,
+        category: 'plat' // Catégorie ajoutée
     }
-]
+];

@@ -19,7 +19,7 @@ const WelcomeBloc = styled.div`
   background-color: ${colors.orange};
   padding: 50px;
   text-align: center;
-  margin-top: 100px;
+  margin-top: 150px;
 `
 
 const WelcomeTitle = styled.h1`

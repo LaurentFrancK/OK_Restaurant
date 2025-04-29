@@ -7,7 +7,7 @@ import errorLogo from '../../assets/images/404.png'
 // CSS rules
 
 const ErrorBloc = styled.div`
-margin: 26px auto;
+margin: 150px auto;
 width: 90%;
 height: 80vh;
 display: flex;

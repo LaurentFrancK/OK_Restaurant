@@ -10,7 +10,9 @@ import Footer from './components/Footer';
 // Import project's pages
 import Home from './pages/Home'
 import Error from './pages/Error'
-import Dishes from './pages/Dishes';
+import Dishes from './pages/Dishes'
+import ClientComments from './pages/Comments'
+import OurTeamPage from './pages/OurTeam';
 
 // Import Styles
 import './index.css'
@@ -28,6 +30,8 @@ root.render(
         {/* Create each route */}
         <Route path="/" element={<Home />} />
         <Route path="/dishes" element={<Dishes />} />
+        <Route path="/review" element={<ClientComments/>} />
+        <Route path="/staff" element={<OurTeamPage/>} />
         {/* Display an error page for all the url that doesn't match any route */}
         <Route path="*" element={<Error />}/>
       </Routes>
