@@ -12,6 +12,7 @@ import colors from '../../utils/colors'
 
 // Import assets
 import logo from '../../assets/images/logo.png'
+import { useRef } from 'react'
 
 
 // Start CSS rules
@@ -96,6 +97,12 @@ const ContactBloc = styled.div`
 // End CSS rules
 
 function Home() {
+
+  const bookFormRef = useRef(null);
+
+  const scrollToForm = () => {
+    bookFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <div>
       <WelcomeBloc>
@@ -105,7 +112,7 @@ function Home() {
             <WelcomeText>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi fugit ipsa officia ducimus facere aut omnis neque a veniam, voluptate nam cupiditate accusantium fugiat debitis?
             </WelcomeText>
-            <BookTableButton to="/book-a-table">Réservez une table</BookTableButton>
+            <BookTableButton onClick={scrollToForm}>Réservez une table</BookTableButton>
           </WelcomeTextBloc>
           <WelcomeLogo src={logo}/>
         </WelcomeContent>
@@ -118,7 +125,7 @@ function Home() {
       </DishesCardsBloc>
 
       {/* Book a table form */}
-      <BookTableBloc>
+      <BookTableBloc ref={bookFormRef}>
           <Title firstLetter="R" restOfTheTitle="éserver une table"/>
           <Form />
       </BookTableBloc>

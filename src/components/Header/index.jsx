@@ -15,7 +15,7 @@ const HeaderComponent = styled.header`
     display: flex;
     justify-content: ${(props) => (props.isScrolled ? 'center' : 'flex-end')}; /* Centrer quand on scrolle */
     align-items: center;
-    background-color: rgba(252, 175, 69, 0.7);
+    background-color: rgba(254, 253, 250, 0.7) /*rgba(252, 175, 69, 0.7)*/;
     color: ${colors.white};
     padding: ${(props) => (props.isScrolled ? '10px 15px' : '15px')}; /* Réduire l'espacement quand on scrolle */
     position: ${(props) => (props.isScrolled ? 'fixed' : 'absolute')}; /* Fixer en haut quand on scrolle */
@@ -32,37 +32,52 @@ const LogoComponent = styled.img`
     width: 70px;
     height: 65px;
     transition: opacity 0.3s ease;
-    opacity: ${(props) => (props.isScrolled ? 0 : 1)};  /* Logo caché quand on scrolle */
+
+    ${(props) => 
+        props.isScrolled &&
+        `display: none;`
+    };
 `;
 
 const NavLinksComponent = styled.div`
     display: flex;
-    justify-content: ${(props) => (props.isScrolled ? 'center' : 'flex-end')}; /* Alignement à droite avant le scroll */
+    justify-content: flex-end; /* Alignement à droite avant le scroll */
     align-items: center;
     width: 100%;  /* Largeur 100% pour occuper toute la largeur disponible */
     transition: transform 0.5s ease-in-out; /* Transition fluide */
+
+    ${(props) => 
+        props.isScrolled &&
+        `justify-content: space-around;
+        transition: .3s ease-in-out;`
+    };
 `;
 
 const NavLink = styled(Link)`
     font-size: 19px;
     color: ${colors.black};
-    padding: 15px;
+    padding: 10px;
     margin-right: 10px;
     border-bottom: 6px solid transparent;
     border-radius: 5px;
     text-decoration: none;
     transition: 0.3s ease-in-out;
 
+    &:hover {
+        color: ${colors.orange};
+    }
+
     ${(props) =>
         props.$isFullLink &&
-        `color: ${colors.black};
-        border-top-left-radius: 30px;
-        border-bottom-left-radius: 30px;
-        border-top-right-radius: 15px;
-        border-bottom-right-radius: 15px;
-        background-color: ${colors.white};
+        `color: ${colors.orange};
+        ${'' /* border-top-right-radius: 70px;
+        border-bottom-right-radius: 70px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px; */}
+        background-color: transparent;
         font-weight: bold;
-        border: none;`
+        border: 1px solid ${colors.orange};
+        border-radius: 0;`
     }
 
     ${(props) =>
@@ -71,7 +86,7 @@ const NavLink = styled(Link)`
         &:hover {
             color: ${colors.orange};
             background-color: ${colors.black};
-            border: none;
+            border: 1px solid ${colors.black};
         }
         `
     }
@@ -79,9 +94,12 @@ const NavLink = styled(Link)`
     ${(props) =>
         props.$active &&
         `
-        color: ${colors.white};
-        font-weight: bold;
-        background-color: ${colors.black};
+        color: ${colors.black};
+        ${'' /* font-weight: bold; */}
+        ${'' /* background-color: ${colors.black}; */}
+        border-top: 2px solid ${colors.black};
+        border-bottom: 2px solid ${colors.black};
+        transition: .3s ease-in-out;
     `}
 `;
 

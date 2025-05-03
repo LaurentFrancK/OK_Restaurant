@@ -16,13 +16,13 @@ const DishesContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    justify-content: center;
+    justify-content: start;
 `
 
 // ******** Search section ************
 const SearchSection = styled.div`
     width: 50%;
-    height: 60px;
+    height: 50px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -32,12 +32,15 @@ const SearchSection = styled.div`
 const SearchBar = styled.input.attrs({type : "text"})`
     width: 70%;
     height: 60%;
+    font-size: 18px;
+    font-variant: small-caps;
     background-color: ${colors.orange};
     border: 3px solid transparent;
     border-radius: 30px;
     outline: none;
     padding: 30px;
     transition: .2s ease-in;
+    caret-color: ${colors.orange};
 
     &:focus {
         background-color: transparent;
@@ -154,6 +157,7 @@ const OptionTitle = styled.label`
 `
 
 function Dishes() {
+    // Display or hide the filters
     const [showFilters, setShowFilters] = useState(false)
     const [filters, setFilters] = useState({
         entrees: false,
@@ -162,6 +166,7 @@ function Dishes() {
         dessert: false,
     })
     const [filteredDishes, setFilteredDishes] = useState(DishesData)
+    // Capture the text in the search bar
     const [searchQuery, setSearchQuery] = useState('') // State pour le texte de recherche
 
     const filterRef = useRef(null); // Créer une référence au container FilterOptions

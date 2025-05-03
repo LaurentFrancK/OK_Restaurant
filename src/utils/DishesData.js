@@ -31,7 +31,7 @@ export const DishesData = [
         image: brics,
         description: 'Les brics sont des plats traditionnels russes, composés de plats de riz, de farine, de sucre, de lait, et de beurre.',
         price: 10,
-        pictureDetail: '',
+        pictureDetail: brics,
         category: 'dessert' // Catégorie ajoutée
     },
     {
