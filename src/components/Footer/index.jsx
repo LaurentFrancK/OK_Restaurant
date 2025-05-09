@@ -120,8 +120,8 @@ function Footer () {
         <PathLinks>
           <SectionTitle>OK Restaurant</SectionTitle>
           <UtilsLinks>
-            <NavLink to="#"><UtilLink>Notre équipe</UtilLink></NavLink>
-            <NavLink to="#"><UtilLink>Commentaires</UtilLink></NavLink>
+            <NavLink to="/staff"><UtilLink>Notre équipe</UtilLink></NavLink>
+            <NavLink to="/review"><UtilLink>Commentaires</UtilLink></NavLink>
             <NavLink to="#"><UtilLink>Réserver une table</UtilLink></NavLink>
           </UtilsLinks>
         </PathLinks>

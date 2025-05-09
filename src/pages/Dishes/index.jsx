@@ -256,17 +256,17 @@ function Dishes() {
                 {showFilters && <FilterOptions ref={filterRef}>
                     <OptionBloc>
                         <CheckBox 
-                            type='checkbox' 
-                            id='entrees' 
+                            type='checkbox'
+                            id='entrees'
                             checked={filters.entrees}
                             onChange={handleCheckBoxChange}
                         />
                         <OptionTitle htmlFor='entrees'>Entrées</OptionTitle>
                     </OptionBloc>
                     <OptionBloc>
-                        <CheckBox 
-                            type='checkbox' 
-                            id='boissons' 
+                        <CheckBox
+                            type='checkbox'
+                            id='boissons'
                             checked={filters.boissons}
                             onChange={handleCheckBoxChange}
                         />
@@ -293,7 +293,7 @@ function Dishes() {
                 </FilterOptions>}
             </FilterSection>
             <DishesContainer>
-                {filteredDishes.map(dish =>
+                {filteredDishes ? filteredDishes.map(dish =>
                     <BigDishCard
                         key={dish.id}
                         title={dish.name}
@@ -302,7 +302,8 @@ function Dishes() {
                         image={dish.image}
                         pictureDetail={dish.pictureDetail}
                     />
-                )}
+                ) : 
+                    <p>Aucun article trouvé</p>}
             </DishesContainer>
         </div>
     );

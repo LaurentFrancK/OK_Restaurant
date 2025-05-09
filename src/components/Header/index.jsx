@@ -25,7 +25,7 @@ const HeaderComponent = styled.header`
     z-index: 1000;
     box-shadow: ${(props) => (props.isScrolled ? '0px 4px 10px rgba(0, 0, 0, 0.2)' : 'none')}; /* Ajouter une ombre quand on scrolle */
     backdrop-filter: ${(props) => (props.isScrolled ? 'blur(10px)' : 'none')}; /* Effet de flou */
-    transition: padding 0.3s, box-shadow 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out, 0.4s ease-in-out;
+    ${'' /* transition: padding 0.3s, box-shadow 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out, 0.4s ease-in-out; */}
 `;
 
 const LogoComponent = styled.img`
@@ -69,14 +69,10 @@ const NavLink = styled(Link)`
 
     ${(props) =>
         props.$isFullLink &&
-        `color: ${colors.orange};
-        ${'' /* border-top-right-radius: 70px;
-        border-bottom-right-radius: 70px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px; */}
-        background-color: transparent;
+        `color: ${colors.white};
+        background-color: ${colors.black};
         font-weight: bold;
-        border: 1px solid ${colors.orange};
+        border: 1px solid transparent;
         border-radius: 0;`
     }
 
@@ -94,11 +90,9 @@ const NavLink = styled(Link)`
     ${(props) =>
         props.$active &&
         `
-        color: ${colors.black};
-        ${'' /* font-weight: bold; */}
-        ${'' /* background-color: ${colors.black}; */}
-        border-top: 2px solid ${colors.black};
-        border-bottom: 2px solid ${colors.black};
+        color: ${colors.orange};
+        border-top: 1px solid ${colors.black};
+        border-bottom: 1px solid ${colors.black};
         transition: .3s ease-in-out;
     `}
 `;
@@ -135,7 +129,8 @@ function Header() {
                 <NavLink to="/dishes" $active={currentPath === '/dishes'}>Nos plats</NavLink>
                 <NavLink to="/review" $active={currentPath === '/review'}>Commentaires</NavLink>
                 <NavLink to="/staff" $active={currentPath === '/staff'}>Notre équipe</NavLink>
-                <NavLink to="/book-a-table" $active={currentPath === '/book-a-table'} $isFullLink>Réserver une table</NavLink>
+                <NavLink to="/signIn" $active={currentPath === '/signIn'} $isFullLink>SignIn</NavLink>
+                {/* <NavLink to="/book-a-table" $active={currentPath === '/book-a-table'} $isFullLink>Réserver une table</NavLink> */}
             </NavLinksComponent>
         </HeaderComponent>
     );

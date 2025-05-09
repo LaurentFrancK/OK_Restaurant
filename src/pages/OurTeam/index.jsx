@@ -118,7 +118,6 @@ function OurTeamPage() {
 
     return (
         <TeamPageContainer>
-            <PageTitle>Notre équipe</PageTitle>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
                 {teamMembers.map(({ id, name, role, description, image }, index) => (
                     <TeamMemberCard key={id} style={loaded ? { opacity: 1, transform: 'translateY(0)' } : {}}>

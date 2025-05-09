@@ -13,6 +13,7 @@ import Error from './pages/Error'
 import Dishes from './pages/Dishes'
 import ClientComments from './pages/Comments'
 import OurTeamPage from './pages/OurTeam';
+import SignIn from './pages/SignIn';
 
 // Import Styles
 import './index.css'
@@ -32,6 +33,7 @@ root.render(
         <Route path="/dishes" element={<Dishes />} />
         <Route path="/review" element={<ClientComments/>} />
         <Route path="/staff" element={<OurTeamPage/>} />
+        <Route path="/signIn" element={<SignIn />} />
         {/* Display an error page for all the url that doesn't match any route */}
         <Route path="*" element={<Error />}/>
       </Routes>

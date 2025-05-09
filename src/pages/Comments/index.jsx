@@ -1,15 +1,27 @@
+// ********* The comments page **************
+
+
+// Import react's components
 import styled from "styled-components";
-import colors from "../../utils/colors";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { comments } from "../../utils/Comments";
 
+// Import project's components
+import colors from "../../utils/colors";
+
+// CSS rules
 const CommentsContainer = styled.div`
     margin: 150px auto;
-    max-width: 800px;
+    max-width: 1000px;
     padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
 `
 
 const CommentCard = styled.div`
+    max-width: 300px;
+    max-height: 200px;
     background-color: ${colors.lightGrey || "#f5f5f5"};
     border-radius: 12px;
     padding: 20px;

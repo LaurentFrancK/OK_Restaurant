@@ -1,6 +1,9 @@
+// ****** The Home page of our web app *********
+
 // Import react components
 import {styled} from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useRef } from 'react'
 
 // Import project's components
 import DishesCardsComponent from '../../components/DishesCardsComponent'
@@ -12,8 +15,6 @@ import colors from '../../utils/colors'
 
 // Import assets
 import logo from '../../assets/images/logo.png'
-import { useRef } from 'react'
-
 
 // Start CSS rules
 const WelcomeBloc = styled.div`
@@ -99,10 +100,10 @@ const ContactBloc = styled.div`
 function Home() {
 
   const bookFormRef = useRef(null);
-
   const scrollToForm = () => {
     bookFormRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
   return (
     <div>
       <WelcomeBloc>
