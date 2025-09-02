@@ -1,13 +1,12 @@
 // Import react components
 import { styled } from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';  // Utilisation de useLocation
-import { useState, useEffect } from 'react';  // Pour gérer le scroll
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
 
-// Import project's components
+// Project's components
 import colors from '../../utils/colors';
-
-// Import assets
 import logo from '../../assets/images/logo.png';
+import { UserContext } from '../../contexts/UserContext';
 
 // CSS
 
@@ -99,27 +98,25 @@ const NavLink = styled(Link)`
 
 function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
-    const location = useLocation();  // Récupération de la route actuelle
+    const location = useLocation();
     const currentPath = location.pathname;
 
-    // Gérer l'événement de scroll
+    const { user, logoutUser } = useContext(UserContext); // <-- récupérer user et logout
+    const navigate = useNavigate();
+
     const handleScroll = () => {
-        if (window.scrollY > 50) {
-            setIsScrolled(true); // Appliquer l'effet de scroll
-        } else {
-            setIsScrolled(false);
-        }
+        setIsScrolled(window.scrollY > 50);
     };
 
-    // Ajouter l'événement de scroll à l'effet
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
-
-        // Nettoyer l'événement au démontage du composant
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const handleLogout = () => {
+        logoutUser();       // supprime token + user du contexte et localStorage
+        navigate("/logIn"); // redirige vers la page login
+    };
 
     return (
         <HeaderComponent isScrolled={isScrolled}>
@@ -129,8 +126,28 @@ function Header() {
                 <NavLink to="/dishes" $active={currentPath === '/dishes'}>Nos plats</NavLink>
                 <NavLink to="/review" $active={currentPath === '/review'}>Commentaires</NavLink>
                 <NavLink to="/staff" $active={currentPath === '/staff'}>Notre équipe</NavLink>
-                <NavLink to="/signIn" $active={currentPath === '/signIn'} $isFullLink>SignIn</NavLink>
-                {/* <NavLink to="/book-a-table" $active={currentPath === '/book-a-table'} $isFullLink>Réserver une table</NavLink> */}
+
+                {/* Si l'utilisateur n'est pas connecté, afficher SignIn et LogIn */}
+                {!user ? (
+                    <>
+                        <NavLink to="/signIn" $active={currentPath === '/signIn'} $isFullLink>SignIn</NavLink>
+                        <NavLink to="/logIn" $active={currentPath === '/logIn'} $isFullLink>LogIn</NavLink>
+                    </>
+                ) : (
+                    <>
+                        <span style={{ marginRight: "10px", fontWeight: "bold", color: colors.black }}>
+                            Bonjour, {user.name}
+                        </span>
+                        <NavLink as="button" onClick={handleLogout} $isFullLink style={{ cursor: "pointer" }}>
+                            Logout
+                        </NavLink>
+
+                        {/* Lien Admin visible uniquement pour les admins */}
+                        {user.role === 'admin' && (
+                            <NavLink to="/admin" $active={currentPath === '/admin'} $isFullLink>Admin</NavLink>
+                        )}
+                    </>
+                )}
             </NavLinksComponent>
         </HeaderComponent>
     );

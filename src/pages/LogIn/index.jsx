@@ -1,12 +1,18 @@
-// ******* Sign in page ********
+// ******* LogIn page ********
 
-import { useState } from "react"
+import { useContext, useState } from "react"
+import {useNavigate} from "react-router-dom"
 import styled from "styled-components"
 import { Eye, EyeOff } from "lucide-react"
 
 import colors from "../../utils/colors"
 
-const SignInContainer = styled.div`
+// Import api
+import { login } from "../../services/apiServices"
+
+import { UserContext } from "../../contexts/UserContext"
+
+const LogInContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   display: flex;
@@ -109,27 +115,47 @@ const FooterText = styled.p`
   }
 `;
 
-function SignIn() {
+
+
+function LogIn () {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
+  const {loginUser} = useContext(UserContext)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      const { data } = await login({ email, password }); // appel API
+      loginUser(data.user, data.token);
+      console.log(data, data.token);
+      navigate("/"); // redirection vers la page d’accueil
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Erreur de connexion, veuillez réessayer"
+      );
+    }
+  };
 
   return (
-    <SignInContainer>
+      <LogInContainer>
       <FormContainer>
-        <Title>Créer un compte</Title>
-        <form>
-          <FormGroup>
-            <Label htmlFor="prenom">Prénom</Label>
-            <Input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required />
-          </FormGroup>
-
-          <FormGroup>
-            <Label htmlFor="nom">Nom</Label>
-            <Input type="text" id="nom" name="nom" placeholder="Votre nom" required />
-          </FormGroup>
-
+        <Title>Se connecter</Title>
+        <form onSubmit={handleSubmit}>
           <FormGroup>
             <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" name="email" placeholder="Votre email" required />
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Votre email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required />
           </FormGroup>
 
           <FormGroup>
@@ -139,6 +165,8 @@ function SignIn() {
               id="password"
               name="password"
               placeholder="Votre mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
             />
@@ -147,16 +175,22 @@ function SignIn() {
             </PasswordToggle>
           </FormGroup>
 
-          <SubmitButton type="submit">S'inscrire</SubmitButton>
+          <SubmitButton type="submit">Connexion</SubmitButton>
         </form>
 
+        {error && (
+          <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+            {error}
+          </p>
+        )}
+
         <FooterText>
-          Déjà inscrit ?
-          <a href="/login">Se connecter</a>
+          Pas encore inscrit ?
+          <a href="/signin">S'inscrire</a>
         </FooterText>
       </FormContainer>
-    </SignInContainer>
-  );
+    </LogInContainer>
+  )
 }
 
-export default SignIn;
+export default LogIn

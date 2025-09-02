@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 import { Link } from 'react-router-dom'
 import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa'
 
-// Import projet's components
+// Import project's components
 import colors from '../../utils/colors'
 
 // CSS rules
@@ -11,7 +11,6 @@ const FooterBloc = styled.footer`
   width: 100%;
   background-color: ${colors.black};
   padding: 40px 20px;
-  margin-top: 80px;
   color: ${colors.white};
 `
 
