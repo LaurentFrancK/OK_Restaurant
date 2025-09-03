@@ -9,21 +9,29 @@ import colors from "../../../utils/colors";
 
 // CSS style
 const CategoryBloc = styled.div`
-  width: 400px;
-  height: 130px;
-  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 600px;
+  height: 200px;
+  margin-right: 30px;
+  padding: 30px;
+  border-radius: 0px;
   background-color: ${colors.white};
   box-shadow: 1px 2px 8px ${colors.grey};
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 2px 6px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 2px 10px 2px ${(props) => props.$hoverColor};
+    cursor: pointer;
   }
 `;
 
 const CategoryTitle = styled.h4`
-  font-size: 18px;
+  font-family: "Libre Baskerville", serif;
+  font-size: 30px;
+  font-variant: small-caps;
   text-align: left;
   padding: 10px;
   color: ${colors.grey};
@@ -36,7 +44,8 @@ const CategoryData = styled.div`
 `;
 
 const CategoryValue = styled.h4`
-  font-size: 40px;
+  font-family: "Libre Baskerville", serif;
+  font-size: 60px;
   text-align: left;
   padding: 10px;
   font-weight: bold;
@@ -45,7 +54,7 @@ const CategoryValue = styled.h4`
 
 // End CSS style
 
-function CategoryElement({ title, number, icon }) {
+function CategoryElement({ title, number, icon, backgroundColor }) {
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
@@ -68,10 +77,10 @@ function CategoryElement({ title, number, icon }) {
   }, [number]);
 
   return (
-    <CategoryBloc>
+    <CategoryBloc $hoverColor={backgroundColor}>
       <CategoryTitle>{title}</CategoryTitle>
       <CategoryData>
-        <CategoryValue>{displayValue}</CategoryValue>
+        <CategoryValue className="CategoryValue">{displayValue}</CategoryValue>
         {icon}
       </CategoryData>
     </CategoryBloc>

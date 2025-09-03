@@ -1,10 +1,15 @@
-// ******* Sign in page ********
+// FILE: SignIn.index.jsx
 
-import { useState } from "react"
+// Import react's components
+import { useContext, useState } from "react"
 import styled from "styled-components"
 import { Eye, EyeOff } from "lucide-react"
 
+// Import project's components
 import colors from "../../utils/colors"
+import { register } from "../../services/apiServices"
+import { UserContext } from "../../contexts/UserContext"
+import {  useNavigate } from "react-router-dom"
 
 const SignInContainer = styled.div`
   width: 100%;
@@ -109,27 +114,74 @@ const FooterText = styled.p`
   }
 `;
 
-function SignIn() {
+function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [surName, setSurname] = useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
+  const {loginUser} = useContext(UserContext)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError(null)
+
+    try{
+      const dataConnection = await register({surName, name, email, password})
+      console.log(dataConnection)
+      loginUser(dataConnection.data.user, dataConnection.data.token)
+      navigate("/")
+    }catch(err) {
+      setError(
+        err.response?.data?.message || "Erreur lors de l'inscription, veuillez réessayer"
+      );
+    }
+  }
 
   return (
     <SignInContainer>
       <FormContainer>
         <Title>Créer un compte</Title>
-        <form>
+        <form onSubmit={handleSubmit}>
           <FormGroup>
             <Label htmlFor="prenom">Prénom</Label>
-            <Input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required />
+            <Input 
+              type="text"
+              id="prenom"
+              name="prenom"
+              placeholder="Votre prénom"
+              required
+              value={surName}
+              onChange={(e) => setSurname(e.target.value)}
+            />
           </FormGroup>
 
           <FormGroup>
             <Label htmlFor="nom">Nom</Label>
-            <Input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+            <Input 
+              type="text"
+              id="nom"
+              name="nom"
+              placeholder="Votre nom"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              />
           </FormGroup>
 
           <FormGroup>
             <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" name="email" placeholder="Votre email" required />
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Votre email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              />
           </FormGroup>
 
           <FormGroup>
@@ -141,6 +193,8 @@ function SignIn() {
               placeholder="Votre mot de passe"
               required
               minLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <PasswordToggle onClick={() => setShowPassword(prev => !prev)}>
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -149,6 +203,12 @@ function SignIn() {
 
           <SubmitButton type="submit">S'inscrire</SubmitButton>
         </form>
+
+        {error && (
+          <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+            {error}
+          </p>)
+          }
 
         <FooterText>
           Déjà inscrit ?
@@ -159,4 +219,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Register;

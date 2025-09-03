@@ -32,7 +32,7 @@ const DashBoardComponent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 `
 
@@ -65,22 +65,34 @@ function DashBoard () {
 
   return (
     <Body>
-      <Title>Tableau de bord Administrateur</Title>
+      {/* <Title>Tableau de bord Administrateur</Title> */}
       <DashBoardComponent>
         <CategoryElement
           title="Nombre total d'utilisateurs"
           number={usersCount}
-          icon={<FaUsers size={60} color="blue" />}
+          icon={<FaUsers
+          size={60}
+          color="blue"
+        />}
+          backgroundColor="blue"
         />
         <CategoryElement
           title="Nombre total de commandes"
           number={ordersCount}
-          icon={<FaShoppingCart size={60} color="green" />}
+          icon={<FaShoppingCart
+          size={60}
+          color="green"
+        />}
+          backgroundColor="green"
         />
         <CategoryElement
           title="Nombre total de plats au menu"
           number={menuCount}
-          icon={<FaUtensils size={60} color="orange" />}
+          icon={<FaUtensils
+          size={60}
+          color="orange"
+        />}
+          backgroundColor="orange"
         />
       </DashBoardComponent>
     </Body>

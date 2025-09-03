@@ -132,7 +132,6 @@ function LogIn () {
     try {
       const { data } = await login({ email, password }); // appel API
       loginUser(data.user, data.token);
-      console.log(data, data.token);
       navigate("/"); // redirection vers la page d’accueil
     } catch (err) {
       setError(

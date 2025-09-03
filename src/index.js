@@ -17,7 +17,7 @@ import Error from './pages/Error'
 import Dishes from './pages/Dishes'
 import ClientComments from './pages/Comments'
 import OurTeamPage from './pages/OurTeam'
-import SignIn from './pages/SignIn'
+import Register from './pages/Register'
 import LogIn from './pages/LogIn'
 import DashBoard from './pages/admin/DashBoard';
 
@@ -42,7 +42,7 @@ function Layout() {
           <Route path="/dishes" element={<Dishes />} />
           <Route path="/review" element={<ClientComments/>} />
           <Route path="/staff" element={<OurTeamPage/>} />
-          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/logIn" element={<LogIn />} />
 
           {/* ADMIN routes */}

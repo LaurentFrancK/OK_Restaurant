@@ -132,7 +132,7 @@ function Header() {
                 {/* Si l'utilisateur n'est pas connecté, afficher SignIn et LogIn */}
                 {!user ? (
                     <>
-                        <NavLink to="/signIn" $active={currentPath === '/signIn'} $isFullLink>SignIn</NavLink>
+                        <NavLink to="/register" $active={currentPath === '/register'} $isFullLink>Register</NavLink>
                         <NavLink to="/logIn" $active={currentPath === '/logIn'} $isFullLink>LogIn</NavLink>
                     </>
                 ) : (
