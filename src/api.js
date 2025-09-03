@@ -15,4 +15,10 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+
+API.interceptors.request.use(req => {
+  console.log("Request:", req.method, req.url, req.data, req.headers);
+  return req;
+});
+
 export default API;

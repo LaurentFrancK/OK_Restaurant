@@ -55,6 +55,7 @@ const NavLink = styled(Link)`
     color: ${colors.black};
     padding: 10px 35px;
     border-radius: 1000px;
+    border: 1px solid transparent;
     text-decoration: none;
     text-align: center;
     transition: 0.3s ease-in-out;
@@ -64,6 +65,7 @@ const NavLink = styled(Link)`
     &:hover {
         background-color: ${colors.orange};
         color: ${colors.white};
+        border-color: ${colors.white};
     }
 
     &.admin-exit {
@@ -97,7 +99,7 @@ function HeaderAdmin () {
                     Compte utilisateur
                 </NavLink>
                 <NavLink as="button" onClick={handleLogout} style={{ cursor: "pointer" }}>
-                    Logout <FiLogOut size={20}/>
+                    Logout <FiLogOut style={{marginLeft: "12"}}  size={20}/>
                 </NavLink>
             </Section2Header>
         </HeaderAdminComponent>

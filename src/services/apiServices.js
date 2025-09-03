@@ -11,7 +11,7 @@ export const login          = (userData) => API.post("/users/login", userData)
 export const updateProfile  = (updatedData) => API.put("/users/profile", updatedData)
 export const deleteProfile  = () => API.delete("/users/profile/delete")
 export const getAllUsers    = () => API.get("/users/admin/users")
-export const updateRole     = (id, newRole) => API.put(`/users/admin/${id}/role`, newRole)
+export const updateRole     = (id, newRole) => API.put(`/users/admin/user/${id}/role`, newRole)
 export const deleteUser     = (id) => API.delete(`/users/admin/user/${id}`)
 
 // Orders

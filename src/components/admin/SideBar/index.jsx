@@ -3,6 +3,9 @@
 // Import react's components
 import {styled} from "styled-components"
 import { Link, useLocation } from "react-router-dom"
+import { MdDashboard } from "react-icons/md";
+import { FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
+
 
 // Import project's components
 import colors from "../../../utils/colors"
@@ -63,10 +66,10 @@ function SideBar () {
     return (
         <SideBarBloc>
             <NavLinks>
-                <NavLink to="/admin" $active={currentPath === '/admin'}>Dashbord</NavLink>
-                <NavLink to="/admin/users">Users</NavLink>
-                <NavLink to="/admin/orders">Orders</NavLink>
-                <NavLink to="/admin/menu">Menu</NavLink>
+                <NavLink to="/admin" $active={currentPath === '/admin'}><MdDashboard style={{marginRight: "12"}}  /> Dashbord</NavLink>
+                <NavLink to="/admin/users" $active={currentPath === '/admin/users'}><FaUsers style={{marginRight: "12"}} /> Users</NavLink>
+                <NavLink to="/admin/orders" $active={currentPath === '/admin/orders'}><FaShoppingCart style={{marginRight: "12"}}  /> Orders</NavLink>
+                <NavLink to="/admin/menu" $active={currentPath === '/admin/menu'}><FaUtensils style={{marginRight: "12"}}  /> Menu</NavLink>
             </NavLinks>
         </SideBarBloc>
     )
