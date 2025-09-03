@@ -23,6 +23,7 @@ import DashBoard from './pages/admin/DashBoard';
 
 // Import Styles
 import './index.css'
+import SideBar from './components/admin/SideBar';
 
 // Root initialization
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -34,7 +35,7 @@ function Layout() {
 
   return (
     <>
-      {isAdmin ? <HeaderAdmin /> : <Header />}
+      {isAdmin ? <><HeaderAdmin /> <SideBar/></>: <Header />}
       {/* Will contains all the routes */}
         <Routes>
           {/* Create each route */}

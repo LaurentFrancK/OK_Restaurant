@@ -12,8 +12,6 @@ const CategoryBloc = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 600px;
-  height: 200px;
   margin-right: 30px;
   padding: 30px;
   border-radius: 0px;

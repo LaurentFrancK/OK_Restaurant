@@ -10,7 +10,6 @@ import {FiLogOut} from 'react-icons/fi'
 
 // Import project's components
 import colors from '../../../utils/colors';
-import logo from '../../../assets/images/logo.png';
 import { UserContext } from '../../../contexts/UserContext';
 
 // CSS styles
@@ -66,6 +65,18 @@ const NavLink = styled(Link)`
         background-color: ${colors.orange};
         color: ${colors.white};
     }
+
+    &.admin-exit {
+        background-color: ${colors.white};
+        color: ${colors.dark};
+        border: 1px solid transparent;
+    }
+
+    &.admin-exit:hover {
+        background-color: ${colors.dark};
+        color: ${colors.orange};
+        border: 1px solid ${colors.white};
+    }
 `;
 // End CSS
 
@@ -82,6 +93,9 @@ function HeaderAdmin () {
             <AdminLogo>OK Restaurant <Admin>Admin <FaCogs /></Admin></AdminLogo>
             <Section2Header>
                 <AdminWelcome> Bonjour, {user.name} </AdminWelcome>
+                <NavLink  to="/" className="admin-exit" style={{ cursor: "pointer" }}>
+                    Compte utilisateur
+                </NavLink>
                 <NavLink as="button" onClick={handleLogout} style={{ cursor: "pointer" }}>
                     Logout <FiLogOut size={20}/>
                 </NavLink>

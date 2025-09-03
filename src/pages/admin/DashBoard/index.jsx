@@ -12,11 +12,12 @@ import { useEffect, useState } from 'react';
 
 // CSS style
 const Body = styled.div`
-  width: 100%;
-  min-height: 100vh;
+  width: calc(100% - 300px);
+  min-height: 90vh;
   margin: 0 auto;
+  margin-left: 300px;
   padding: 40px 20px;
-  background: linear-gradient(135deg, ${colors.lightGrey}, #f9fafb);
+  ${'' /* background: linear-gradient(135deg, ${colors.lightGrey}, #f9fafb); */}
 `
 
 const Title = styled.h1`
