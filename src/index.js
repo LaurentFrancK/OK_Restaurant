@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter as Router, Routes, Route, useLocation} from 'react-router-dom'
+import { styled } from "styled-components"
 
 // Import project's components
 import Header from './components/Header';
@@ -27,6 +28,14 @@ import SideBar from './components/admin/SideBar';
 import UserManager from './pages/admin/UserManager';
 import MenuManager from './pages/admin/MenuManager';
 
+// CSS style
+const Content = styled.div`
+  flex: 1;
+  padding: 20px;
+`
+
+// End CSS style
+
 // Root initialization
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -39,22 +48,26 @@ function Layout() {
     <>
       {isAdmin ? <><HeaderAdmin /> <SideBar/></>: <Header />}
       {/* Will contains all the routes */}
-        <Routes>
-          {/* Create each route */}
-          <Route path="/" element={<Home />} />
-          <Route path="/dishes" element={<Dishes />} />
-          <Route path="/review" element={<ClientComments/>} />
-          <Route path="/staff" element={<OurTeamPage/>} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/logIn" element={<LogIn />} />
+        <div style={{display: "flex", flexDirection: "column", minHeight: "100vh"}}>
+          <Content>
+            <Routes>
+              {/* Create each route */}
+              <Route path="/" element={<Home />} />
+              <Route path="/dishes" element={<Dishes />} />
+              <Route path="/review" element={<ClientComments/>} />
+              <Route path="/staff" element={<OurTeamPage/>} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/logIn" element={<LogIn />} />
 
-          {/* ADMIN routes */}
-          <Route path="/admin" element={<DashBoard />} />
-          <Route path="/admin/users" element={<UserManager />} />
-          <Route path="/admin/menu" element={<MenuManager />}/>
-          {/* Display an error page for all the url that doesn't match any route */}
-          <Route path="*" element={<Error />}/>
-        </Routes>
+              {/* ADMIN routes */}
+              <Route path="/admin" element={<DashBoard />} />
+              <Route path="/admin/users" element={<UserManager />} />
+              <Route path="/admin/menu" element={<MenuManager />}/>
+              {/* Display an error page for all the url that doesn't match any route */}
+              <Route path="*" element={<Error />}/>
+            </Routes>
+          </Content>
+        </div>
         {!isAdmin ? <Footer />:<div></div>}
     </>
   );

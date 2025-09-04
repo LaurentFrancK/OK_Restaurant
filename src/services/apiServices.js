@@ -21,7 +21,7 @@ export const getMyOrders    = () => API.get("/orders/my-orders")
 export const updateStatus   = (id, updatedStatus) => API.put(`/orders/admin/${id}/status`, updatedStatus)
 
 // Menu
-export const getMenu        = () => API.get("/menu/menu")
+export const getMenu = (params = {}) => API.get('/menu/menu', { params })
 export const getMenuItem    = (id) => API.get(`/menu/${id}`)
 export const createMenuItem = (menuItemData) => API.post("/menu/admin/newMenuItem", menuItemData)
 export const updateMenuItem = (id, updatedMenuItemData) => API.put(`/menu/admin/updateMenuItem/${id}`, updatedMenuItemData)

@@ -89,7 +89,8 @@ const DishPrice = styled.p`
   padding: 10px;
   background-color: ${colors.orange};
   border-radius: 5px;
-  width: 35%;
+  width: max-content;
+  max-width: 200px;
 `
 
 const DishDetails = styled.button`
@@ -132,7 +133,7 @@ function DishCard({ title = 'Nom du plat', description = 'Description du plat', 
         </DishImageWrapper>
         <DishDescription>{description}</DishDescription>
         <DishBottom>
-          <DishPrice>Prix : {price}€</DishPrice>
+          <DishPrice>Prix : {price} FCFA</DishPrice>
           <DishDetails onClick={() => setModalOpen(true)}>
             <FaEye />
           </DishDetails>

@@ -1,18 +1,12 @@
-// FILE: MenuManager/index.jsx
-
-// Import react's components
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import MenuForm from "../../../components/admin/MenuForm";
 import MenuTable from "../../../components/admin/MenuTable";
+import { getMenu, createMenuItem, updateMenuItem, deleteMenuItem, toggleMenuItem } from "../../../services/apiServices";
 
-// Import API services
-import { getMenu, createMenuItem, updateMenuItem, deleteMenuItem, toggleMenuItem  } from "../../../services/apiServices";
-
-// CSS style
 const Body = styled.div`
-  width: calc(100% - 350px);
-  margin-left: 350px;
+  width: calc(100% - 300px);
+  margin-left: 300px;
   margin-top: 100px;
 `;
 
@@ -21,62 +15,67 @@ const Title = styled.h1`
   font-size: 40px;
   font-weight: bold;
 `;
-// End CSS style
 
 function MenuManager() {
   const [menuItems, setMenuItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 10;
 
-  // Charger les items au montage
-  useEffect(() => {
-    fetchMenu();
-  }, []);
-
-  const fetchMenu = async () => {
+  const fetchMenu = async (page = 1) => {
     try {
-      const res = await getMenu();
-      setMenuItems(res.data.menu || []); // selon ta réponse backend
+      const res = await getMenu({ page, limit: itemsPerPage });
+      setMenuItems(res.data.menu || []);
+      setCurrentPage(res.data.page || 1);
+      setTotalPages(res.data.pages || 1);
     } catch (err) {
       console.error("Erreur lors du chargement du menu :", err);
     }
   };
 
-  // Créer un nouvel item
+  useEffect(() => {
+    fetchMenu(currentPage);
+  }, [currentPage]);
+
   const handleCreate = async (itemData) => {
     try {
       await createMenuItem(itemData);
-      fetchMenu();
+      fetchMenu(currentPage);
     } catch (err) {
       console.error("Erreur lors de la création d’un item :", err.response?.data || err);
     }
   };
 
-  // Modifier un item
   const handleUpdateMenuItem = async (updatedItem) => {
-  try {
-    await updateMenuItem(updatedItem._id, updatedItem);
-    fetchMenu(); // recharge la liste après mise à jour
-  } catch (err) {
-    console.error("Erreur lors de la mise à jour du plat :", err.response?.data || err);
-  }
-};
+    try {
+      await updateMenuItem(updatedItem._id, updatedItem);
+      fetchMenu(currentPage);
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour du plat :", err.response?.data || err);
+    }
+  };
 
-  // Supprimer un item
   const handleDelete = async (id) => {
     try {
       await deleteMenuItem(id);
-      fetchMenu();
+      fetchMenu(currentPage);
     } catch (err) {
       console.error("Erreur lors de la suppression d’un item :", err);
     }
   };
 
-  // Activer/Désactiver un item
   const handleToggle = async (id) => {
     try {
       await toggleMenuItem(id);
-      fetchMenu();
+      fetchMenu(currentPage);
     } catch (err) {
       console.error("Erreur lors de l’activation/désactivation :", err);
+    }
+  };
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
     }
   };
 
@@ -89,6 +88,9 @@ function MenuManager() {
         onUpdate={handleUpdateMenuItem}
         onDelete={handleDelete}
         onToggle={handleToggle}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
       />
     </Body>
   );

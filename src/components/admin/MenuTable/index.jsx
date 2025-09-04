@@ -180,8 +180,31 @@ const TextArea = styled.textarea`
     font-size: 14px;
     resize: none;
 `;
+// Pagination styles
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+`;
+
+const PageButton = styled.button`
+  padding: 6px 12px;
+  background-color: ${colors.orange};
+  border: none;
+  border-radius: 6px;
+  color: ${colors.white};
+  font-weight: bold;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: ${colors.grey};
+    cursor: not-allowed;
+  }
+`;
+
 // Composant
-function MenuTable({ menuItems, onDelete, onToggle, onUpdate }) {
+function MenuTable({ menuItems, onDelete, onToggle, onUpdate, currentPage, totalPages, onPageChange }) {
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -202,10 +225,17 @@ function MenuTable({ menuItems, onDelete, onToggle, onUpdate }) {
     };
 
     const handleUpdate = () => {
-        // console.log(selectedItem._id);
         onUpdate(selectedItem);
         setShowModal(false);
         setSelectedItem(null);
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) onPageChange(currentPage - 1);
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) onPageChange(currentPage + 1);
     };
 
     return (
@@ -225,7 +255,7 @@ function MenuTable({ menuItems, onDelete, onToggle, onUpdate }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {menuItems.length > 0 ?  menuItems.map((item) => (
+                    {menuItems.length > 0 ? menuItems.map((item) => (
                         <Tr key={item._id} onClick={() => handleRowClick(item)}>
                             <Td><Img src={item.picture} alt={item.name} /></Td>
                             <Td>{item.name}</Td>
@@ -260,13 +290,22 @@ function MenuTable({ menuItems, onDelete, onToggle, onUpdate }) {
                         </Tr>
                     )) : (
                         <Tr>
-                        <Td colSpan="9" style={{ textAlign: "center", padding: "20px", color: "red" }}>
-                            Aucun menu trouvé
-                        </Td>
+                            <Td colSpan="9" style={{ textAlign: "center", padding: "20px", color: "red" }}>
+                                Aucun menu trouvé
+                            </Td>
                         </Tr>
                     )}
                 </tbody>
             </Table>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <PaginationContainer>
+                    <PageButton disabled={currentPage <= 1} onClick={handlePrevPage}>Précédent</PageButton>
+                    <span>Page {currentPage} / {totalPages}</span>
+                    <PageButton disabled={currentPage >= totalPages} onClick={handleNextPage}>Suivant</PageButton>
+                </PaginationContainer>
+            )}
 
             {showModal && selectedItem && (
                 <ModalOverlay>
@@ -292,6 +331,11 @@ function MenuTable({ menuItems, onDelete, onToggle, onUpdate }) {
                             type="text"
                             value={selectedItem.category}
                             onChange={(e) => setSelectedItem({...selectedItem, category: e.target.value})}
+                        />
+                        <Input
+                            type="text"
+                            value={selectedItem.picture}
+                            onChange={(e) => setSelectedItem({...selectedItem, picture: e.target.value})}
                         />
                         <div>
                             <ModalButton className="confirm" onClick={handleUpdate}>Enregistrer</ModalButton>

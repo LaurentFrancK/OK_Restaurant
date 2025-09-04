@@ -55,7 +55,7 @@ function DashBoard () {
         setOrdersCount(orders.data.orders?.length || 0);
 
         const menu = await getMenu();
-        setMenuCount(menu.data.menu?.length || 0);
+        setMenuCount(menu.data.total || 0);
       } catch (err) {
         console.error("Erreur lors du chargement des données:", err);
       }

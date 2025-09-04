@@ -1,312 +1,329 @@
-// Import react components
-import styled from 'styled-components'
-import { FaList, FaTimes, FaSearch } from 'react-icons/fa'
+// FILE: Dishes.jsx
+import styled, { keyframes } from 'styled-components'
+import { FaList, FaTimes } from 'react-icons/fa'
 import { useState, useEffect, useRef } from 'react'
-
-// Import project's components
-import { DishesData } from '../../utils/DishesData'
-import colors from '../../utils/colors'
+import { getMenu } from '../../services/apiServices'
 import BigDishCard from '../../components/BigDishCard'
+import colors from '../../utils/colors'
+import debounce from 'lodash.debounce'
 
-// CSS rules
+// Import logo pour le loader
+import logo from '../../assets/images/logo.png'
+
+// ---------- CSS ----------
 const DishesContainer = styled.div`
-    margin: 100px auto;
-    padding: 20px;
-    max-width: 1200px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: start;
+  margin: 50px auto;
+  padding: 20px;
+  max-width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: start;
 `
 
-// ******** Search section ************
 const SearchSection = styled.div`
-    width: 50%;
-    height: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 80px auto;
+  width: 50%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
 `
 
-const SearchBar = styled.input.attrs({type : "text"})`
-    width: 70%;
-    height: 60%;
-    font-size: 18px;
-    font-variant: small-caps;
-    background-color: ${colors.orange};
-    border: 3px solid transparent;
-    border-radius: 30px;
-    outline: none;
-    padding: 30px;
-    transition: .2s ease-in;
-    caret-color: ${colors.orange};
+const SearchBar = styled.input.attrs({ type: "text" })`
+  width: 100%;
+  height: 60px;
+  font-size: 18px;
+  background-color: ${colors.orange};
+  border: 3px solid transparent;
+  border-radius: 30px;
+  outline: none;
+  padding: 0 20px;
+  caret-color: ${colors.orange};
 
-    &:focus {
-        background-color: transparent;
-        border: 3px solid ${colors.orange};
-    }
+  &:focus {
+    background-color: transparent;
+    border: 3px solid ${colors.orange};
+  }
 
-    &::placeholder {
-        color: ${colors.white};
-        opacity: 0.7;
-        font-style: italic;
-        font-size: 20px;
-        text-align: center;
-    }
-`
-
-const SearchButton = styled.button`
-    width: 20%;
-    height: 60px;
-    border: none;
-    border-radius: 5px;
-    background-color: black;
+  &::placeholder {
     color: ${colors.white};
-    padding: 20px auto;
-    font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-        color: ${colors.orange};
-        box-shadow: 4px 3px 4px ${colors.orange};
-    }
+    opacity: 0.7;
+    font-style: italic;
+    font-size: 16px;
+    text-align: center;
+  }
 `
 
-// ******* Filter section ***********
 const FilterSection = styled.div`
-    position: relative;
-    transition: .5s ease-in-out;
+  position: relative;
+  margin-bottom: 20px;
 `
 
 const FilterButton = styled.button`
-    position: absolute;
-    right: 20px;
-    padding: 5px;
-    border: none;
-    font-size: 25px;
-    background-color: transparent;
-    transition: .3s ease-in-out;
-    cursor: pointer;
+  position: absolute;
+  right: 20px;
+  padding: 5px;
+  border: none;
+  font-size: 25px;
+  background-color: transparent;
+  cursor: pointer;
 
-    &:hover {
-        color: ${colors.orange};
-    }
+  &:hover {
+    color: ${colors.orange};
+  }
 `
 
 const FilterOptions = styled.div`
-    position: absolute;
-    right: 100px;
-    width: 500px;
-    height: 200px;
-    background-color: rgba(240, 240, 240, 0.7);
-    backdrop-filter: blur(10px);
-    box-shadow: 6px 6px 8px ${colors.black};
-    border-radius: 10px;
-    padding: 20px 35px;
-    z-index: 10000;
+  position: absolute;
+  right: 100px;
+  width: 300px;
+  background-color: rgba(240,240,240,0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 6px 6px 8px ${colors.black};
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 10000;
 `
 
 const OptionBloc = styled.div`
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
 `
 
 const CheckBox = styled.input`
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    vertical-align: middle;
-    margin-right: 10px;
-    transition: all 0.2s;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    &:checked::after {
-        content: '';
-        width: 6px;
-        height: 10px;
-        border: solid ${colors.black};
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
-        display: inline-block;
-    }
-
-    &:focus {
-        outline: none;
-    }
+  margin-right: 10px;
 `
 
 const OptionTitle = styled.label`
-    width: 100px;
-    font-size: 18px;
-    color: #333;
-    display: flex;
-    text-align: justify;
-    justify-content: flex-start;
-    cursor: pointer;
+  font-size: 16px;
+  cursor: pointer;
 `
 
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+  gap: 10px;
+`
+
+const PageButton = styled.button`
+  padding: 8px 12px;
+  background-color: ${colors.orange};
+  border: none;
+  border-radius: 6px;
+  color: ${colors.white};
+  font-weight: bold;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: ${colors.grey};
+    cursor: not-allowed;
+  }
+`
+
+const SortSelect = styled.select`
+  margin-left: 20px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid ${colors.grey};
+`
+
+// Loader animation
+const zoomAnimation = keyframes`
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+`
+
+const LoaderOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+`
+
+const LoaderImage = styled.img`
+  width: 100px;
+  height: 100px;
+  animation: ${zoomAnimation} 1.5s infinite ease-in-out;
+`
+
+// ---------- COMPONENT ----------
 function Dishes() {
-    // Display or hide the filters
-    const [showFilters, setShowFilters] = useState(false)
-    const [filters, setFilters] = useState({
-        entrees: false,
-        boissons: false,
-        plats: false,
-        dessert: false,
-    })
-    const [filteredDishes, setFilteredDishes] = useState(DishesData)
-    // Capture the text in the search bar
-    const [searchQuery, setSearchQuery] = useState('') // State pour le texte de recherche
+  const [dishes, setDishes] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filters, setFilters] = useState({
+    entrée: false,
+    plat: false,
+    dessert: false,
+    boisson: false,
+  })
+  const [showFilters, setShowFilters] = useState(false)
+  const [page, setPage] = useState(1)
+  const [pages, setPages] = useState(1)
+  const [sortBy, setSortBy] = useState('')
+  const filterRef = useRef(null)
+  const isFirstRender = useRef(true) // empêche le debounce initial
 
-    const filterRef = useRef(null); // Créer une référence au container FilterOptions
+  // ---------- FETCH API ----------
+  const fetchMenu = async (query = searchQuery, showLoader = true) => {
+    try {
+      if (showLoader) setLoading(true)
+      const categories = Object.keys(filters).filter(cat => filters[cat])
+      const categoryQuery = categories.join(',') || ''
 
-    // Mettre à jour le texte de recherche
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
+      const delay = new Promise(resolve => setTimeout(resolve, 500))
+      const responsePromise = getMenu({
+        search: query,
+        available: true,
+        category: categoryQuery,
+        sortBy,
+        page,
+        limit: 6,
+      })
+
+      const [response] = await Promise.all([responsePromise, delay])
+      const { menu, pages: totalPages } = response.data
+      setDishes(menu)
+      setPages(totalPages)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      if (showLoader) setLoading(false)
     }
+  }
 
-    // Filtrer les plats en fonction du mot-clé de recherche
-    const filterBySearch = (query) => {
-        if (query === '') {
-            setFilteredDishes(DishesData);  // Réinitialiser les plats si la recherche est vide
-        } else {
-            const filtered = DishesData.filter(dish =>
-                dish.name.toLowerCase().includes(query.toLowerCase()) ||
-                dish.description.toLowerCase().includes(query.toLowerCase())
-            );
-            setFilteredDishes(filtered);
-        }
+  // ---------- DEBOUNCED SEARCH ----------
+  const debouncedFetch = useRef(
+    debounce((value) => {
+      setSearchLoading(true)
+      fetchMenu(value, false).finally(() => setSearchLoading(false))
+    }, 700)
+  ).current
+
+  useEffect(() => {
+    // fetch principal au montage ou changement de page/filtre/tri
+    fetchMenu(searchQuery)
+  }, [filters, page, sortBy])
+
+  useEffect(() => {
+    // search rapide, mais on évite au premier rendu
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
     }
+    debouncedFetch(searchQuery)
+  }, [searchQuery])
 
-    // Appliquer la recherche à chaque modification du texte
-    useEffect(() => {
-        filterBySearch(searchQuery);
-    }, [searchQuery]);
+  // ---------- HANDLERS ----------
+  const handleSearchChange = e => setSearchQuery(e.target.value)
+  const toggleFilters = () => setShowFilters(prev => !prev)
+  const handleCheckBoxChange = e => {
+    const { id, checked } = e.target
+    setFilters(prev => ({ ...prev, [id]: checked }))
+    setPage(1)
+  }
+  const handleSortChange = e => setSortBy(e.target.value)
 
-    // Gérer l'affichage des filtres
-    const displayFilters = () => {
-        setShowFilters(prev => !prev);
+  // ---------- CLOSE FILTERS ON OUTSIDE CLICK ----------
+  useEffect(() => {
+    const handleClickOutside = e => {
+      if (filterRef.current && !filterRef.current.contains(e.target) && !e.target.closest('button')) {
+        setShowFilters(false)
+      }
     }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
-    // Gérer les changements de cases à cocher
-    const handleCheckBoxChange = (event) => {
-        const { id, checked } = event.target;
-        setFilters((prevFilters) => {
-            const updatedFilters = {
-                ...prevFilters,
-                [id]: checked
-            }
-            filterDishes(updatedFilters);
-            return updatedFilters;
-        });
-    }
+  const isLoading = loading || searchLoading
 
-    // Filtrer les plats selon les filtres activés
-    const filterDishes = (filters) => {
-        const filtered = DishesData.filter(dish => {
-            if (filters.entrees && dish.category !== 'entrée') return false;
-            if (filters.boissons && dish.category !== 'boisson') return false;
-            if (filters.plats && dish.category !== 'plat') return false;
-            if (filters.dessert && dish.category !== 'dessert') return false;
-            return true;
-        });
-        setFilteredDishes(filtered);
-    }
+  return (
+    <>
+      {isLoading && (
+        <LoaderOverlay>
+          <LoaderImage src={logo} alt="Chargement..." />
+        </LoaderOverlay>
+      )}
 
-    // Fermer les options de filtre si on clique en dehors
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (filterRef.current && !filterRef.current.contains(event.target) && !event.target.closest('button')) {
-                setShowFilters(false); // Fermer les filtres si on clique en dehors
-            }
-        };
+      <div style={{ marginTop: 150 }}>
+        {/* Search & Sort */}
+        <SearchSection>
+          <SearchBar
+            placeholder="Entrer un mot clé..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          <SortSelect value={sortBy} onChange={handleSortChange}>
+            <option value="">Trier par</option>
+            <option value="priceAsc">Prix croissant</option>
+            <option value="priceDesc">Prix décroissant</option>
+            <option value="newest">Nouveautés</option>
+          </SortSelect>
+        </SearchSection>
 
-        document.addEventListener('mousedown', handleClickOutside); // Ajouter l'événement
+        {/* Filters */}
+        <FilterSection>
+          <FilterButton onClick={toggleFilters}>
+            {showFilters ? <FaTimes style={{color:'red'}}/> : <FaList />}
+          </FilterButton>
+          {showFilters && (
+            <FilterOptions ref={filterRef}>
+              {Object.keys(filters).map(key => (
+                <OptionBloc key={key}>
+                  <CheckBox
+                    type="checkbox"
+                    id={key}
+                    checked={filters[key]}
+                    onChange={handleCheckBoxChange}
+                  />
+                  <OptionTitle htmlFor={key}>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </OptionTitle>
+                </OptionBloc>
+              ))}
+            </FilterOptions>
+          )}
+        </FilterSection>
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside); // Nettoyer l'événement
-        };
-    }, []);
+        {/* Dishes */}
+        <DishesContainer>
+          {dishes.length ? (
+            dishes.map(dish => (
+              <BigDishCard
+                key={dish._id}
+                title={dish.name}
+                description={dish.description}
+                price={dish.price}
+                image={dish.picture}
+                pictureDetail={dish.pictureDetail || dish.picture}
+              />
+            ))
+          ) : (
+            <p>Aucun plat trouvé</p>
+          )}
+        </DishesContainer>
 
-    return (
-        <div style={{ marginTop: 150 }}>
-            <SearchSection>
-                <SearchBar 
-                    placeholder='Entrer un mot clé...'
-                    value={searchQuery}  // Ajouter la valeur de la recherche ici
-                    onChange={handleSearchChange}  // Mettre à jour le texte de la recherche
-                />
-                <SearchButton><FaSearch /> Rechercher</SearchButton>
-            </SearchSection>
-            <FilterSection>
-                <FilterButton onClick={displayFilters}>
-                    {showFilters ? <FaTimes style={{ color: 'red' }} /> : <FaList />}
-                </FilterButton>
-                {showFilters && <FilterOptions ref={filterRef}>
-                    <OptionBloc>
-                        <CheckBox 
-                            type='checkbox'
-                            id='entrees'
-                            checked={filters.entrees}
-                            onChange={handleCheckBoxChange}
-                        />
-                        <OptionTitle htmlFor='entrees'>Entrées</OptionTitle>
-                    </OptionBloc>
-                    <OptionBloc>
-                        <CheckBox
-                            type='checkbox'
-                            id='boissons'
-                            checked={filters.boissons}
-                            onChange={handleCheckBoxChange}
-                        />
-                        <OptionTitle htmlFor='boissons'>Boissons</OptionTitle>
-                    </OptionBloc>
-                    <OptionBloc>
-                        <CheckBox 
-                            type='checkbox' 
-                            id='plats' 
-                            checked={filters.plats}
-                            onChange={handleCheckBoxChange}
-                        />
-                        <OptionTitle htmlFor='plats'>Plats</OptionTitle>
-                    </OptionBloc>
-                    <OptionBloc>
-                        <CheckBox 
-                            type='checkbox' 
-                            id='dessert' 
-                            checked={filters.dessert}
-                            onChange={handleCheckBoxChange}
-                        />
-                        <OptionTitle htmlFor='dessert'>Desserts</OptionTitle>
-                    </OptionBloc>
-                </FilterOptions>}
-            </FilterSection>
-            <DishesContainer>
-                {filteredDishes ? filteredDishes.map(dish =>
-                    <BigDishCard
-                        key={dish.id}
-                        title={dish.name}
-                        description={dish.description}
-                        price={dish.price}
-                        image={dish.image}
-                        pictureDetail={dish.pictureDetail}
-                    />
-                ) : 
-                    <p>Aucun article trouvé</p>}
-            </DishesContainer>
-        </div>
-    );
+        {/* Pagination */}
+        <PaginationContainer>
+          <PageButton disabled={page <= 1} onClick={() => setPage(prev => prev - 1)}>Précédent</PageButton>
+          <span>Page {page} / {pages}</span>
+          <PageButton disabled={page >= pages} onClick={() => setPage(prev => prev + 1)}>Suivant</PageButton>
+        </PaginationContainer>
+      </div>
+    </>
+  )
 }
 
-export default Dishes;
+export default Dishes

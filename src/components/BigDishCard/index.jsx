@@ -103,7 +103,7 @@ function BigDishCard ({title, description, price, image}) {
                 <Overlay>
                     <TitlePriceRow>
                         <DishTitle>{title}</DishTitle>
-                        <DishPrice>{price} $</DishPrice>
+                        <DishPrice>{price} FCFA</DishPrice>
                     </TitlePriceRow>
                     <DishDescription>{description}</DishDescription>
                     <DishDetailsButton onClick={() => setModalOpen(true)}>

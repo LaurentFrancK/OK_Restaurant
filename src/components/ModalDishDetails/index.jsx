@@ -110,7 +110,7 @@ function ModalDishDetails({ isOpen, onClose, dish }) {
             <DishPicture src={dish.pictureDetail} alt={dish.name}/>
             <DishDescription>
               <DishPresentation>{dish.description}</DishPresentation>
-              <DishPrice>Prix : {dish.price} €</DishPrice>
+              <DishPrice>Prix : {dish.price} FCFA</DishPrice>
             </DishDescription>
           </DishDescriptionBloc>
         </DishDetail>
