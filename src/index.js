@@ -25,6 +25,7 @@ import DashBoard from './pages/admin/DashBoard';
 import './index.css'
 import SideBar from './components/admin/SideBar';
 import UserManager from './pages/admin/UserManager';
+import MenuManager from './pages/admin/MenuManager';
 
 // Root initialization
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -50,6 +51,7 @@ function Layout() {
           {/* ADMIN routes */}
           <Route path="/admin" element={<DashBoard />} />
           <Route path="/admin/users" element={<UserManager />} />
+          <Route path="/admin/menu" element={<MenuManager />}/>
           {/* Display an error page for all the url that doesn't match any route */}
           <Route path="*" element={<Error />}/>
         </Routes>

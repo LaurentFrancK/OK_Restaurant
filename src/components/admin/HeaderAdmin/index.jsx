@@ -80,6 +80,28 @@ const NavLink = styled(Link)`
         border: 1px solid ${colors.white};
     }
 `;
+
+const LogoutButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 19px;
+    color: ${colors.dark};
+    padding: 10px 35px;
+    border-radius: 1000px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    background-color: ${colors.orange};
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        ${'' /* background-color: ${colors.dark}; */}
+        color: ${colors.white};
+        border: 1px solid ${colors.white};
+    }
+`;
 // End CSS
 
 
@@ -88,19 +110,19 @@ function HeaderAdmin () {
     const navigate = useNavigate();
     const handleLogout = () => {
         logoutUser();       // supprime token + user du contexte et localStorage
-        navigate("/login"); // redirige vers la page login
+        navigate("/"); // redirige vers la page d'accueil
     };
     return (
         <HeaderAdminComponent>
             <AdminLogo>OK Restaurant <Admin>Admin <FaCogs /></Admin></AdminLogo>
             <Section2Header>
-                <AdminWelcome> Bonjour, {user.name} </AdminWelcome>
+                <AdminWelcome> Bonjour, {user?.name || "Invité"} </AdminWelcome>
                 <NavLink  to="/" className="admin-exit" style={{ cursor: "pointer" }}>
                     Compte utilisateur
                 </NavLink>
-                <NavLink as="button" onClick={handleLogout} style={{ cursor: "pointer" }}>
+                <LogoutButton onClick={handleLogout} style={{ cursor: "pointer" }}>
                     Logout <FiLogOut style={{marginLeft: "12"}}  size={20}/>
-                </NavLink>
+                </LogoutButton>
             </Section2Header>
         </HeaderAdminComponent>
     )
